@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: deeptrust-backend
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:deeptrust}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:deeptrust_app}
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      # 'validate' in real environments — schema managed via Flyway/Liquibase
+      # migrations, not Hibernate auto-DDL. 'update' is convenient for the
+      # viva demo only.
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: never # GlobalExceptionHandler controls what's exposed
+    include-stacktrace: never
+
+# ---- JWT ----
+security:
+  jwt:
+    secret: ${JWT_SECRET}                        # REQUIRED: base64, 256-bit+, generate via `openssl rand -base64 64`
+    access-token-expiration-ms: 900000            # 15 minutes
+    refresh-token-expiration-ms: 604800000        # 7 days
+
+# ---- ROOT bootstrap (founder account) ----
+deeptrust:
+  root:
+    username: ${DEEPTRUST_ROOT_USERNAME:}
+    email: ${DEEPTRUST_ROOT_EMAIL:}
+    initial-password: ${DEEPTRUST_ROOT_INITIAL_PASSWORD:}
+
+  storage:
+    local-path: ${MEDIA_STORAGE_PATH:./storage/media}
+
+  ai-service:
+    base-url: ${AI_SERVICE_BASE_URL:http://localhost:8000}
+
+  blockchain:
+    rpc-url: ${BLOCKCHAIN_RPC_URL:http://127.0.0.1:8545}
+    wallet-private-key: ${BLOCKCHAIN_WALLET_PRIVATE_KEY}   # REQUIRED, never commit
+    contract-address: ${DEEPTRUST_CONTRACT_ADDRESS}        # REQUIRED, from `npm run deploy:ganache`
+
+  public-verify-base-url: ${PUBLIC_VERIFY_BASE_URL:http://localhost:5173/verify}
+
+  zk:
+    circuit-build-dir: ${ZK_CIRCUIT_BUILD_DIR:./zk-circuits/build}
+    snarkjs-path: ${SNARKJS_PATH:snarkjs}
+
+logging:
+  level:
+    root: INFO
+    com.deeptrust: DEBUG
+    org.hibernate.SQL: WARN

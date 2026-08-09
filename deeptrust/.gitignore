@@ -1,0 +1,31 @@
+# Java / Maven
+backend/target/
+*.class
+
+# Node
+node_modules/
+frontend/dist/
+blockchain/artifacts/
+blockchain/cache/
+
+# Python
+ai-service/venv/
+ai-service/__pycache__/
+ai-service/**/__pycache__/
+*.pyc
+
+# ZK build artifacts (large binaries — regenerate via zk-circuits/README.md)
+zk-circuits/build/
+
+# Storage / uploads (local dev media storage)
+storage/
+
+# Secrets — never commit
+.env
+*.pem
+*.key
+
+# IDE
+.idea/
+.vscode/
+*.iml
