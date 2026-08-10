@@ -242,6 +242,6 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 
 <div align="center">
 
-Built as a final-year engineering capstone project.
+Developed by Pesala Ranjitha 
 
 </div>
